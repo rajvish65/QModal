@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modal>
+<news type="all">
+<header>Header 1</header>
+<content>Content 1</content>
+<footer>Footer 1</footer>>
+</news>
+<news type="qfocus">
+<header>Header 2</header>
+<content>Content 2</content>
+<footer>Footer 2</footer>>
+</news>
+<news type="whizible">
+<header>Header 3</header>
+<content>Content 3</content>
+<footer>Footer 3</footer>>
+</news>
+<news type="elearning">
+<header>Header 4</header>
+<content>Content 4</content>
+<footer>Footer 4</footer>>
+</news>
+</modal>
