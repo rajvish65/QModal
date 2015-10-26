@@ -5,6 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class News {
 	
+	private long newsId;
+	
 	@NotEmpty(message = "Please provide Modal Type.")
 	private String type;
 	
@@ -15,7 +17,14 @@ public class News {
 	private MultipartFile newsImage;
 	private byte[] newsImageData;
 	private Boolean newsImageUploaded;
+
 	
+	public long getNewsId() {
+		return newsId;
+	}
+	public void setNewId(long newId) {
+		this.newsId = newId;
+	}
 	public String getType() {
 		return type;
 	}

@@ -90,7 +90,11 @@ $().ready(function(){
 				  }
 				  
 				 $.each(parsedJSON, function(key, value) {
-						$("#"+key).html(value);
+					 if(key != "newsImageData")
+							$("#"+key).html(value);
+					    else
+						if(key == "newsImageData")
+								$('#news-image img').attr("src","data:image/jpg;base64,"+value);
 				 }); 
 				 $('#myModal').modal();  
 		  });  
@@ -99,9 +103,19 @@ $().ready(function(){
 </script>
 </head>
  <body class="full-layout    nav-top-fixed   nav-right-small   responsive    clearfix breakpoint-975">
-<c:if test="${ not empty successfullyImageuploadCreated }">
+<c:if test="${ not empty successfullyImageUploaded }">
 				<script type="text/javascript">
 						alert("Image Uploaded Successfully");
+				</script>
+				</c:if>
+<c:if test="${ not empty successfullyImageRemoved }">
+				<script type="text/javascript">
+						alert("Image Removed Successfully");
+				</script>
+				</c:if>
+<c:if test="${ not empty successfullyModalUpdated }">
+				<script type="text/javascript">
+						alert("Modal Updated Successfully");
 				</script>
 				</c:if>
 <div class="vd_body">
@@ -134,7 +148,7 @@ $().ready(function(){
                     <h2 class="mgtp--10"><i class="icon-feather mgr-10 vd_green"></i><c:out value="${news.type}"></c:out></h2>
                     <br>
                     <form:form action="update_modal.htm" modelAttribute="news"  id="createModal">
-                       <form:hidden path="type" id ="hiddenType" value="${news.type}"/>
+                       <form:hidden path="type" id ="hiddenType1" value="${news.type}"/>
                        <%-- <input type="hidden" id ="hiddenType" name="type" value="${news.type}"> --%>
                        <div class="form-group clearfix">
                         <label class="col-sm-2 control-label">Header</label>
@@ -154,13 +168,28 @@ $().ready(function(){
                           <input type="text" id="form-footer" class="input-border-btm" name="footer" value="${news.footer}">
                         </div>
                       </div>
-                    <div>  
-
-                     <form:form action="news_image_upload.htm" method="POST" modelAttribute="news" enctype="multipart/form-data">
+                 
+                     <br/>
+                     <br/>
+                      <div class="form-group form-actions">
+                        <div class="col-sm-12">
+                          <button type="submit" class="btn vd_btn vd_bg-green vd_white" name="update">Update</button>
+                          <button type="submit" class="btn vd_btn vd_bg-red vd_white" name ="delete">Delete</button>
+                          <button type="button" class="btn vd_btn vd_bg-yellow vd_white" name="cancel" id="cancel">Cancel</button>
+                        </div>
+                      </div>
+                    </form:form> 
+                    <br/><br/><br/>
+                      <form:form action="news_image_upload.htm" method="POST" modelAttribute="news" enctype="multipart/form-data">
+						<form:hidden path="type" id ="hiddenType2" value="${news.type}"/>
 						<div style="float: center; height: 15%; width: 30%;">
 							
 						    <c:if test="${news.newsImageUploaded eq true }">
 						  		<img height="60%" width="50%" src="news_image.htm?type=${news.type}" >  
+				    		</c:if>
+				    
+				    		<c:if test="${news.newsImageUploaded eq false }">
+						  		<img height="60%" width="50%" src="images/no_image.jpg" >  
 				    		</c:if>
 								
 						</div>
@@ -168,19 +197,11 @@ $().ready(function(){
 								<p>Select Images to upload..</p><br/>
                     			<input name="newsImage" type="file" />
 					 		</div>
+					 		<br/>
 							<button type="submit" class="btn vd_btn vd_bg-blue vd_white" name ="uploadImage">Upload Image</button>
-							</form:form>			
-					 </div>
-                     <br/>
-                     <br/>
-                      <div class="form-group form-actions">
-                        <div class="col-sm-12">
-                          <button type="submit" class="btn vd_btn vd_bg-green vd_white" name="update" >Update</button>
-                          <button type="submit" class="btn vd_btn vd_bg-red vd_white" name ="delete">Delete</button>
-                          <button type="button" class="btn vd_btn vd_bg-yellow vd_white" name="cancel" id="cancel">Cancel</button>
-                        </div>
-                      </div>
-                    </form:form>
+							<button type="submit" class="btn vd_btn vd_bg-grey vd_white" name="removeImage">Remove Image</button>
+							</form:form>  	
+
                   </div>
                   <!-- panel-body  --> 
                   
@@ -279,6 +300,9 @@ $().ready(function(){
                             <div class="form-group">
                               <label class="col-sm-4 control-label"></label>
 
+                            </div>
+                            <div id="news-image" class="form-group">
+                              <img alt="News Image" src="" style="height: 150px; width: 200px;">
                             </div>
                             <div class="form-group">
                               <label class="col-sm-4 control-label" id ="content"></label>

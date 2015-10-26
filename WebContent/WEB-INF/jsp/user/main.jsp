@@ -74,8 +74,8 @@ $().ready(function(){
 			//alert(type);
 
 			  crossDomainAjax('modal.json',type, function (data) {
-				  alert("Success");
-				  alert(data.responseText);
+				  //alert("Success");
+				  //alert(data.responseText);
 				  
 				  var parsedJSON = null;
 				  if ('XDomainRequest' in window && window.XDomainRequest !== null) {
@@ -84,13 +84,13 @@ $().ready(function(){
 				  else{
 					parsedJSON = JSON.parse(data.responseText);
 				  }
-				  
+
 				 $.each(parsedJSON, function(key, value) {
 					    if(key != "newsImageData")
 							$("#"+key).html(value);
 					    else
 						if(key == "newsImageData")
-							$('#news-image img').attr("src",value);
+							$('#news-image img').attr("src","data:image/jpg;base64,"+value);
 				 }); 
 				 $('#myModal').modal();  
 		  });  
@@ -104,11 +104,6 @@ $().ready(function(){
 <c:if test="${ not empty successfullyModalCreated }">
 				<script type="text/javascript">
 						alert("Modal Created Successfully");
-				</script>
-				</c:if>
-<c:if test="${ not empty successfullyModalUpdated }">
-				<script type="text/javascript">
-						alert("Modal Updated Successfully");
 				</script>
 				</c:if>
 <c:if test="${ not empty successfullyModalDeleted }">

@@ -78,8 +78,8 @@ $().ready(function(){
 			//alert(type);
 
 			  crossDomainAjax('modal.json',type, function (data) {
-				  alert("Success");
-				  alert(data.responseText);
+				  //alert("Success");
+				  //alert(data.responseText);
 				  
 				  var parsedJSON = null;
 				  if ('XDomainRequest' in window && window.XDomainRequest !== null) {
@@ -90,7 +90,11 @@ $().ready(function(){
 				  }
 				  
 				 $.each(parsedJSON, function(key, value) {
-						$("#"+key).html(value);
+					 if(key != "newsImageData")
+							$("#"+key).html(value);
+					    else
+						if(key == "newsImageData")
+							$('#news-image img').attr("src","data:image/jpg;base64,"+value);
 				 }); 
 
 				 $('#myModal').modal();  
@@ -281,6 +285,9 @@ $().ready(function(){
                             <div class="form-group">
                               <label class="col-sm-4 control-label"></label>
 
+                            </div>
+                            <div id="news-image" class="form-group">
+                              <img alt="News Image" src="" style="height: 150px; width: 200px;">
                             </div>
                             <div class="form-group">
                               <label class="col-sm-4 control-label" id ="content"></label>

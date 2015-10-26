@@ -147,7 +147,7 @@ public class XMLActivityController {
 	
 		logger.info(QModalLoggerConstants.MODAL_UPDATED);
 		redirectAttributes.addFlashAttribute("successfullyModalUpdated","Modal Updated Successfully");
-		return QModalURLMappings.REDIRECT_SUCCESS_MODAL_UPDATED;
+		return QModalURLMappings.REDIRECT_SUCCESS_MODAL_UPDATED+news.getType();
 	}
 	
 	@RequestMapping(value=QModalURLMappings.UPDATE_MODAL_PAGE,method=RequestMethod.POST,params="delete")
@@ -232,7 +232,7 @@ public class XMLActivityController {
 		return null;
 	}
 	
-	@RequestMapping(value = QModalURLMappings.NEWS_IMAGE_UPLOAD,method=RequestMethod.POST)
+	@RequestMapping(value = QModalURLMappings.NEWS_IMAGE_UPLOAD,method=RequestMethod.POST,params="uploadImage")
 	public String newImageUpload(@ModelAttribute("news") @Valid News news,BindingResult result,Model model,RedirectAttributes redirectAttributes)
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -247,7 +247,26 @@ public class XMLActivityController {
 		}
 	
 		logger.info(QModalLoggerConstants.MODAL_CREATED);
-		redirectAttributes.addFlashAttribute("successfullyModalCreated","Image Uploaded Successfully");
-		return QModalURLMappings.REDIRECT_SUCCESS_MODAL_CREATED;
+		redirectAttributes.addFlashAttribute("successfullyImageUploaded","Image Uploaded Successfully");
+		return QModalURLMappings.REDIRECT_IMAGE_UPLOAD+news.getType();
+	}
+	
+	@RequestMapping(value = QModalURLMappings.NEWS_IMAGE_UPLOAD,method=RequestMethod.POST,params="removeImage")
+	public String removeImageUploaded(@ModelAttribute("news") @Valid News news,BindingResult result,Model model,RedirectAttributes redirectAttributes)
+	{
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userEmailId = authentication.getName();
+		
+		try {
+            qmodalService.removeNewsImage(news);
+		}catch(Exception ex)
+		{
+			logger.error(QModalMessageConstants.EMPTY_RESULT_SET);
+			logger.error(ex.getLocalizedMessage());
+		}
+	
+		logger.info(QModalLoggerConstants.MODAL_CREATED);
+		redirectAttributes.addFlashAttribute("successfullyImageRemoved","Image Removed Successfully");
+		return QModalURLMappings.REDIRECT_IMAGE_REMOVED+news.getType();
 	}
 }

@@ -72,5 +72,11 @@ public interface IQModalService {
 	 */
 	void uploadNewsImage(News news);
 
+	/**
+	 * @author rvishwakarma
+	 * @param news
+	 */
+	void removeNewsImage(News news);
+
 	
 }

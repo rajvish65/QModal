@@ -113,6 +113,15 @@ public class QModalServiceManager implements IQModalService {
         qmodalDao.uploadNewsImage(news);             
 	}
 
+	/**
+	 * @author rvishwakarma
+	 * @param news
+	 */
+	@Override
+	public void removeNewsImage(News news) {
+		 qmodalDao.removeNewsImage(news);
+	}
+
 	
 	
 }

@@ -58,6 +58,9 @@
                               <label class="col-sm-4 control-label"></label>
 
                             </div>
+                            <div id="news-image" class="form-group">
+                              <img alt="News Image" src="" style="height: 150px; width: 200px;">
+                            </div>
                             <div class="form-group">
                               <label class="col-sm-4 control-label" id ="content"></label>
 
@@ -88,8 +91,8 @@ $("#modal_type .item a").click(function(e){
     var type = this.id;
    
     crossDomainAjax('modal.json',type, function (data) {
-		  alert("Success");
-		  alert(data.responseText);
+		  //alert("Success");
+		  //alert(data.responseText);
 		  
 		  var parsedJSON = null;
 		  if ('XDomainRequest' in window && window.XDomainRequest !== null) {
@@ -100,7 +103,11 @@ $("#modal_type .item a").click(function(e){
 		  }
 		  
 		 $.each(parsedJSON, function(key, value) {
-				$("#"+key).html(value);
+			 if(key != "newsImageData")
+					$("#"+key).html(value);
+			    else
+				if(key == "newsImageData")
+					$('#news-image img').attr("src","data:image/jpg;base64,"+value);
 
 		 }); 
 
